@@ -52,12 +52,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::shiny();
 });
-
 ```
 
 This will ensure that, even if the user could somehow get to the page that renders the Shiny app, the app will not receive the POST request to confirm the user is authenticated unless your middleware is passed. 
-
-```php
 
 The main way to use the package is by adding the ShinyIframe component to your page. It requires a `$shinyAppUrl` - the url of the Shiny app you want to embed. You may optionally add `$postData` - an array of data to pass to the Shiny app when it loads.
 
