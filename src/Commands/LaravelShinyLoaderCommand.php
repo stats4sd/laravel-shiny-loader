@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace  Stats4sd\LaravelShinyLoader\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelShinyLoaderCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-shiny-loader';
 
     public $description = 'My command';
 

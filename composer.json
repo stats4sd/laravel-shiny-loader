@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "stats4sd/laravel-shiny-loader",
+    "description": "This is my package laravel-shiny-loader",
     "keywords": [
-        ":vendor_name",
+        "Statistics for Sustainable Development",
         "laravel",
-        ":package_slug"
+        "laravel-shiny-loader"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/stats4sd/laravel-shiny-loader",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Dave Mills",
+            "email": "d.e.mills@stats4sd.org",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Stats4sd\\LaravelShinyLoader\\": "src/",
+            "Stats4sd\\LaravelShinyLoader\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/",
+            "Stats4sd\\LaravelShinyLoader\\Tests\\": "tests/",
             "Workbench\\App\\": "workbench/app/"
         }
     },
@@ -63,10 +63,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Stats4sd\\LaravelShinyLoader\\LaravelShinyLoaderServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelShinyLoader": "Stats4sd\\LaravelShinyLoader\\Facades\\LaravelShinyLoader"
             }
         }
     },

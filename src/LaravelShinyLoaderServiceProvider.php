@@ -1,12 +1,11 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Stats4sd\LaravelShinyLoader;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class LaravelShinyLoaderServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,10 +15,10 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
-            ->hasConfigFile()
+            ->name('laravel-shiny-loader')
             ->hasViews()
-            ->hasMigration('create_migration_table_name_table')
-            ->hasCommand(SkeletonCommand::class);
+            ->hasViewComponent('shiny-iframe', View\Components\ShinyIframe::class)
+            ->hasConfigFile()
+            ->hasRoute('shiny-loader');
     }
 }
