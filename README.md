@@ -30,7 +30,16 @@ Add the following properties to your .env file:
 ```dotenv
 ## Path to the directory where shiny apps are served from. For example, if you have shiny apps in /srv/shiny-server/app1 and /srv/shiny-server/app2, set this to /srv/shiny-server
 SHINY_APP_PATH="/path/to/shiny/app/container"
+
+## URL of the Shiny app. The Shiny app should be available at this URL, as it will be embedded into an iframe within one of your Laravel app pages
+SHINY_APP_URL="http://url-of-shiny-app.com"
 ```
+
+>[!NOTE]
+>The shiny app needs to be available at the given url independantly of your Laravel app. This doesn't mean users can actually reach the app at this url; we recommend that you use some approach to prevent users just going directly to this url. The most secure approach is to develop your Shiny app to require POST data from the Laravel app before rendering sensitive content. 
+
+TODO: tidy up R Shiny side of this interaction and share documentation
+
 
 ## Use
 
@@ -59,7 +68,7 @@ This will ensure that, even if the user could somehow get to the page that rende
 The main way to use the package is by adding the ShinyIframe component to your page. It requires a `$shinyAppUrl` - the url of the Shiny app you want to embed. You may optionally add `$postData` - an array of data to pass to the Shiny app when it loads.
 
 ```bladehtml
-    <x-shiny-iframe 
+    <laravel-shiny-loader:shiny-iframe 
         :shiny-app-url="$shinyAppUrl" 
         :post-data="['foo' => 'bar']"
         />
