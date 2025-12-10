@@ -68,7 +68,7 @@ This will ensure that, even if the user could somehow get to the page that rende
 The main way to use the package is by adding the ShinyIframe component to your page. It requires a `$shinyAppUrl` - the url of the Shiny app you want to embed. You may optionally add `$postData` - an array of data to pass to the Shiny app when it loads.
 
 ```bladehtml
-    <laravel-shiny-loader:shiny-iframe 
+    <x-shiny-loader:shiny-iframe 
         :shiny-app-url="$shinyAppUrl" 
         :post-data="['foo' => 'bar']"
         />
