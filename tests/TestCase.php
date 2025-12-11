@@ -1,10 +1,10 @@
 <?php
 
-namespace  Stats4sd\LaravelShinyLoader\Tests;
+namespace Stats4sd\LaravelShinyLoader\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use  Stats4sd\LaravelShinyLoader\LaravelShinyLoaderServiceProvider;
+use Stats4sd\LaravelShinyLoader\LaravelShinyLoaderServiceProvider;
 
 class TestCase extends Orchestra
 {

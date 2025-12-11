@@ -1,6 +1,6 @@
 <?php
 
-namespace  Stats4sd\LaravelShinyLoader\Database\Factories;
+namespace Stats4sd\LaravelShinyLoader\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
