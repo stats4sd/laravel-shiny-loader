@@ -1,5 +1,5 @@
 <?php
 
-namespace  Stats4sd\LaravelShinyLoader;
+namespace Stats4sd\LaravelShinyLoader;
 
 class LaravelShinyLoader {}

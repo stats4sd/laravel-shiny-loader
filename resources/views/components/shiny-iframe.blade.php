@@ -3,9 +3,9 @@
     <iframe src="{{ $shinyAppUrl }}" width="100%" height="1000px"></iframe>
 
     <script>
-
         function showAuthError() {
-            document.getElementById('shiny-loading-message').innerHTML = "An error occurred during authentication. Only users with appropriate VF Factory/WCD Survey roles can view this page. If you believe your acount should have access, please contact vf@stats4sd.org with your user email to request access."
+            document.getElementById('shiny-loading-message').innerHTML =
+                "An error occurred during authentication. Please reload the page to try again. If the problem persists, please contact your system administrator.";
         }
 
         function showAuthSuccess() {
@@ -13,7 +13,7 @@
         }
 
 
-        window.addEventListener("message", function (event) {
+        window.addEventListener("message", function(event) {
 
             // only accept messages from the shiny app
             const shinyOrigin = getBaseUrl("{{ $shinyAppUrl }}")
@@ -23,13 +23,16 @@
             }
 
             fetch("{{ route('laravel-shiny.shiny-auth') }}", {
-                method: "POST",
-                body: JSON.stringify({'session': event.data, 'post_data': @json($postData)}),
-                headers: {
-                    'Content-Type': 'application/json',
-                    "X-CSRF-Token": "{{ csrf_token() }}",
-                },
-            })
+                    method: "POST",
+                    body: JSON.stringify({
+                        'session': event.data,
+                        'post_data': @json($postData)
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "X-CSRF-Token": "{{ csrf_token() }}",
+                    },
+                })
                 .then((res) => {
                     showAuthSuccess();
                 })
@@ -40,10 +43,12 @@
                         showAuthError();
                     }
 
-                    @if(config('app.env') === "live")
-                        document.getElementById('shiny-loading-message').innerHTML = "An error occurred during authentication. Please reload the page to try again. If the problem persists, please contact your system administrator.";
+                    @if (config('app.env') === 'live')
+                        document.getElementById('shiny-loading-message').innerHTML =
+                            "An error occurred during authentication. Please reload the page to try again. If the problem persists, please contact your system administrator.";
                     @else
-                        document.getElementById('shiny-loading-message').innerHTML = "An error occurred during authentication. It looks like the Shiny app did not respond with a 200 status to the POST request. Please check that the Shiny app is correctly configured.<br/><br/>(This message will not appear on the live site - it only appears here to help debugging)";
+                        document.getElementById('shiny-loading-message').innerHTML =
+                            "An error occurred during authentication. It looks like the Shiny app did not respond with a 200 status to the POST request. Please check that the Shiny app is correctly configured.<br/><br/>(This message will not appear on the live site - it only appears here to help debugging)";
                     @endif
                 })
 
@@ -57,7 +62,6 @@
             const parsedUrl = new URL(url);
             return `${parsedUrl.protocol}//${parsedUrl.host}`;
         }
-
     </script>
 
 
