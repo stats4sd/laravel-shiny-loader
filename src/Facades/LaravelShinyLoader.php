@@ -1,6 +1,6 @@
 <?php
 
-namespace  Stats4sd\LaravelShinyLoader\Facades;
+namespace Stats4sd\LaravelShinyLoader\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -11,6 +11,6 @@ class LaravelShinyLoader extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \ Stats4sd\LaravelShinyLoader\LaravelShinyLoader::class;
+        return \Stats4sd\LaravelShinyLoader\LaravelShinyLoader::class;
     }
 }
