@@ -29,6 +29,14 @@ class ShinyController
 
         fclose($file);
 
+        // format the URL correctly
+        $finalUrl = str_replace("\n", '', $url[0]);
+        $finalUrl = config('services.shiny.rdmt-demo-url').$finalUrl;
+        $finalUrl = str_replace("\n", '', $finalUrl);
+
+        // Append the auth_key to the post data
+        $postData['auth_key'] = config('shiny-loader.auth-key');
+
         Http::post(str_replace("\n", '', $url[0]), $postData)
             ->throw()
             ->json();
