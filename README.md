@@ -9,8 +9,8 @@ A Laravel package that lets you embed Shiny apps into your Laravel application w
 
 This package does more than that - it provides a way for Laravel to communicate with the Shiny app to:
 
--   pass initialisation data into the app
--   ensure that the current user is authenticated before loading the app.
+*   pass initialisation data into the app
+*   ensure that the current user is authenticated before loading the app.
 
 ## How does it work?
 
@@ -18,28 +18,30 @@ TODO: Update and bring over documentation from : https://github.com/stats4sd/shi
 
 ## Installation
 
-You can install the package via composer:
+You can install the package via composer. You will also need to publish the config file, so you can specify the urls of the Shiny apps to embed:
 
-```bash
+```
 composer require stats4sd/laravel-shiny-loader
+php artisan vendor:publish --tag shiny-loader-config
 ```
 
 Add the following properties to your .env file:
 
-```dotenv
+```
 ## Path to the directory where shiny apps are served from. For example, if you have shiny apps in /srv/shiny-server/app1 and /srv/shiny-server/app2, set this to /srv/shiny-server
 SHINY_APP_PATH="/path/to/shiny/app/container"
-
-## URL of the Shiny app. The Shiny app should be available at this URL, as it will be embedded into an iframe within one of your Laravel app pages
-SHINY_APP_URL="http://url-of-shiny-app.com"
 
 ## A secret key that both the Laravel app and the Shiny app know. This is used to authenticate requests from Laravel to the Shiny app
 ## This can be literally any string; the only requirement is that it is also included in the Shiny app's configuration
 SHINY_AUTH_KEY="change-me"
 
+## Then add the URL of every shiny app to be embedded. E.g., to match the 'example' entries in the config file you just published:
+SHINY_APP_URL_MONITORING="http://127.0.0.1:7008"
+SHINY_APP_URL_ANALYSIS="http://127.0.0.1:7009"
+
 ```
 
-> [!NOTE]
+> \[!NOTE\]
 > The shiny app needs to be available at the given url independantly of your Laravel app. This doesn't mean users can actually reach the app at this url; we recommend that you use some approach to prevent users just going directly to this url. The most secure approach is to develop your Shiny app to require POST data from the Laravel app before rendering sensitive content.
 
 TODO: tidy up R Shiny side of this interaction and share documentation
@@ -70,7 +72,7 @@ This will ensure that, even if the user could somehow get to the page that rende
 
 The main way to use the package is by adding the ShinyIframe component to your page. It requires a `$shinyAppUrl` - the url of the Shiny app you want to embed. You may optionally add `$postData` - an array of data to pass to the Shiny app when it loads.
 
-```bladehtml
+```
     <x-shiny-loader:shiny-iframe
         :shiny-app-url="$shinyAppUrl"
         :post-data="['foo' => 'bar']"
@@ -79,9 +81,9 @@ The main way to use the package is by adding the ShinyIframe component to your p
 
 You can use the `$postData` to pass any data you want from Laravel to the Shiny app. For example:
 
--   The current user's ID or email address;
--   The ID of a resource the user is viewing in Laravel, so the Shiny app can load data related to that resource;
--   Any other arbitrary data you want to pass to the Shiny app.
+*   The current user's ID or email address;
+*   The ID of a resource the user is viewing in Laravel, so the Shiny app can load data related to that resource;
+*   Any other arbitrary data you want to pass to the Shiny app.
 
 TODO: add refs to documentation on how to setup the Shiny app to receive the postData.
 
@@ -99,8 +101,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
--   [Dave Mills](https://github.com/dave-mills)
--   [All Contributors](../../contributors)
+*   [Dave Mills](https://github.com/dave-mills)
+*   [All Contributors](../../contributors)
 
 ## License
 
