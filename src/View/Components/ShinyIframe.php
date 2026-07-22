@@ -22,15 +22,6 @@ class ShinyIframe extends Component
         $this->shinyAppUrl = "{$rootUrl}/{$app}/";
     }
 
-    public function data(): array
-    {
-        return [
-            'app' => $this->app,
-            'postData' => $this->postData,
-            'shinyAppUrl' => $this->shinyAppUrl,
-        ];
-    }
-
     public function render(): View|Closure|string
     {
         return view('shiny-loader::components.shiny-iframe');
