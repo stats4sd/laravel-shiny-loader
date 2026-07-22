@@ -16,9 +16,17 @@ This package does more than that - it provides a way for Laravel to communicate 
 
 TODO: Update and bring over documentation from : https://github.com/stats4sd/shiny-laravel-auth-example
 
+## Requirements: one shiny server per Laravel app
+
+**All shiny apps embedded in one Laravel app must be served by a single shiny server instance, from a single root url.** Each app is served at `{root_url}/{app-name}/`, and the auth handshake relies on a `.sessions` directory at the shiny server's root, shared between all apps and readable by Laravel (same machine or a shared/mounted volume).
+
+This means the app *names* are part of your application's structure: they must match the app's folder name on the shiny server in every environment, and your blade views reference them directly. They therefore live in the committed config file, not in `.env`. Only the root url and root path vary per environment.
+
+Running apps individually with `shiny::runApp()` on ad-hoc ports is not supported — there is no shared root url in that mode. For local development, either run a shiny server (e.g. via Docker) serving all apps, or use the R package's `OVERRIDE_LARAVEL_AUTH=true` bypass (see [stats4sd/shiny-laravel-auth](https://github.com/stats4sd/shiny-laravel-auth)).
+
 ## Installation
 
-You can install the package via composer. You will also need to publish the config file, so you can specify the urls of the Shiny apps to embed:
+You can install the package via composer, then publish the config file:
 
 ```
 composer require stats4sd/laravel-shiny-loader
@@ -28,64 +36,48 @@ php artisan vendor:publish --tag shiny-loader-config
 Add the following properties to your .env file:
 
 ```
-## Path to the directory where shiny apps are served from. For example, if you have shiny apps in /srv/shiny-server/app1 and /srv/shiny-server/app2, set this to /srv/shiny-server
-SHINY_APP_PATH="/path/to/shiny/app/container"
+## Root url of the shiny server instance that serves ALL embedded shiny apps.
+## Both the browser and the Laravel app must be able to reach this url.
+SHINY_ROOT_URL="http://localhost:3838"
 
-## A secret key that both the Laravel app and the Shiny app know. This is used to authenticate requests from Laravel to the Shiny app
-## This can be literally any string; the only requirement is that it is also included in the Shiny app's configuration
+## Absolute path to the shiny server's site directory - the folder containing each app's folder
+## and the shared `.sessions` directory used by the auth handshake.
+SHINY_ROOT_PATH="/srv/shiny-server"
+
+## A secret key that both the Laravel app and the Shiny apps know. This is used to authenticate
+## requests from Laravel to the Shiny apps. It can be any string.
 SHINY_AUTH_KEY="change-me"
-
-## Then add the URL of every shiny app to be embedded. E.g., to match the 'example' entries in the config file you just published:
-SHINY_APP_URL_MONITORING="http://127.0.0.1:7008"
-SHINY_APP_URL_ANALYSIS="http://127.0.0.1:7009"
-
 ```
 
-> \[!NOTE\]
-> The shiny app needs to be available at the given url independantly of your Laravel app. This doesn't mean users can actually reach the app at this url; we recommend that you use some approach to prevent users just going directly to this url. The most secure approach is to develop your Shiny app to require POST data from the Laravel app before rendering sensitive content.
+Then register each embedded app's name in `config/shiny-loader.php` (names are folder names on the shiny server):
 
-TODO: tidy up R Shiny side of this interaction and share documentation
+```php
+'apps' => [
+    'monitor',
+    'analysis',
+],
+```
 
 ## Use
 
-To enable authentication, you need to set up a route in your Laravel app.
-
-This package provides a Route Macro to make this easy. In your main `routes/web.php` (or where-ever you register your routes), add the following:
+To enable authentication, register the auth route in your `routes/web.php` (wrap it in whatever auth middleware suits your app):
 
 ```php
 use Illuminate\Support\Facades\Route;
 
-Route::shiny()
-```
-
-If you want to add extra middleware to the route (for example, to ensure the user is authenticated, or has a specific role), you can do so by wrapping the `Route::shiny()` call in a middleware group. E.g:
-
-```php
-use Illuminate\Support\Facades\Route;
-
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::shiny();
 });
 ```
 
-This will ensure that, even if the user could somehow get to the page that renders the Shiny app, the app will not receive the POST request to confirm the user is authenticated unless your middleware is passed.
+Embed an app with the ShinyIframe component, passing the app's *name* (it must be listed in `shiny-loader.apps`). You may optionally add `$postData` — an array of data to pass to the Shiny app when it loads:
 
-The main way to use the package is by adding the ShinyIframe component to your page. It requires a `$shinyAppUrl` - the url of the Shiny app you want to embed. You may optionally add `$postData` - an array of data to pass to the Shiny app when it loads.
-
+```blade
+<x-shiny-loader::shiny-iframe
+    app="monitor"
+    :post-data="['foo' => 'bar']"
+    />
 ```
-    <x-shiny-loader::shiny-iframe
-        :shiny-app-url="$shinyAppUrl"
-        :post-data="['foo' => 'bar']"
-        />
-```
-
-You can use the `$postData` to pass any data you want from Laravel to the Shiny app. For example:
-
-*   The current user's ID or email address;
-*   The ID of a resource the user is viewing in Laravel, so the Shiny app can load data related to that resource;
-*   Any other arbitrary data you want to pass to the Shiny app.
-
-TODO: add refs to documentation on how to setup the Shiny app to receive the postData.
 
 ## Changelog
 
