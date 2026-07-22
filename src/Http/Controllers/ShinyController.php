@@ -17,7 +17,8 @@ class ShinyController
             'post_data' => ['nullable', 'array'],
         ]);
 
-        $sessionFile = config('shiny-loader.root_path')."/.sessions/{$validated['session']}";
+        $rootPath = config('shiny-loader.root_path');
+        $sessionFile = "{$rootPath}/.sessions/{$validated['session']}";
 
         if (! File::exists($sessionFile)) {
             return response()->json(['error' => 'Shiny session not found'], 404);
