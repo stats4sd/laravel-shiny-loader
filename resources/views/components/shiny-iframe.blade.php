@@ -34,6 +34,9 @@
                     },
                 })
                 .then((res) => {
+                    if (!res.ok) {
+                        throw new Error("Shiny auth request failed with status " + res.status);
+                    }
                     showAuthSuccess();
                 })
                 .catch((err) => {

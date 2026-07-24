@@ -2,6 +2,7 @@
 
 namespace Stats4sd\LaravelShinyLoader;
 
+use Illuminate\Support\Facades\Blade;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,8 +18,12 @@ class LaravelShinyLoaderServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-shiny-loader')
             ->hasViews()
-            ->hasViewComponent('shiny-iframe', View\Components\ShinyIframe::class)
             ->hasConfigFile()
             ->hasRoute('shiny-loader');
+    }
+
+    public function packageBooted(): void
+    {
+        Blade::componentNamespace('Stats4sd\\LaravelShinyLoader\\View\\Components', 'shiny-loader');
     }
 }
