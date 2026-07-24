@@ -24,6 +24,6 @@ class ShinyIframe extends Component
 
     public function render(): View|Closure|string
     {
-        return view('shiny-loader::components.shiny-iframe');
+        return view('shiny-loader::components.shiny-iframe'); // @phpstan-ignore argument.type
     }
 }
