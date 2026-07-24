@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-shiny-loader` will be documented in this file.
 
+## v1.2.1: Streamline Config Requirements - 2026-07-24
+
+### What's Changed
+
+* Single shiny server by @dave-mills in https://github.com/stats4sd/laravel-shiny-loader/pull/10
+* Update orchestra/testbench requirement from ^10.0.0||^9.0.0 to ^11.1.0 by @dependabot[bot] in https://github.com/stats4sd/laravel-shiny-loader/pull/9
+* Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/stats4sd/laravel-shiny-loader/pull/8
+
+**Full Changelog**: https://github.com/stats4sd/laravel-shiny-loader/compare/v1.1.2...v1.2.1
+
 ## 2.0 - Single shiny server - 2026-07-22
 
 Breaking changes:
@@ -11,7 +21,7 @@ Breaking changes:
 - `<x-shiny-loader::shiny-iframe>` now takes `app` (the app name, which must be registered in `shiny-loader.apps`) instead of `shiny-app-url`.
 - The auth controller validates that the session callback url starts with `root_url` (422 otherwise), rejects non-alphanumeric session ids, returns 404 for missing session files, and no longer reads the leftover `services.shiny.rdmt-demo-url` config key.
 - The iframe view now reports authentication failures instead of silently treating HTTP error responses as success.
-- The <x-shiny-loader::shiny-iframe> tag now resolves to the ShinyIframe class component (previously it silently fell through to Blade's anonymous-component fallback, so the component class never ran).
+- The [x-shiny-loader::shiny-iframe](x-shiny-loader::shiny-iframe) tag now resolves to the ShinyIframe class component (previously it silently fell through to Blade's anonymous-component fallback, so the component class never ran).
 
 ## Work with Laravel 13 - 2026-06-23
 
